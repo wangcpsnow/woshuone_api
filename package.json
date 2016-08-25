@@ -1,0 +1,28 @@
+{
+  "name": "woshuone_api",
+  "version": "1.0.0",
+  "description": "api for woshuone",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangcpsnow/woshuone_api.git"
+  },
+  "author": "wangcpsnow",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wangcpsnow/woshuone_api/issues"
+  },
+  "homepage": "https://github.com/wangcpsnow/woshuone_api#readme",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "jade": "~1.11.0",
+    "morgan": "~1.7.0",
+    "serve-favicon": "~2.3.0"
+  }
+}
