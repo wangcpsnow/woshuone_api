@@ -1,3 +1,7 @@
+/**
+ * mysql  database: wordpress table: wp_posts
+ * @type {[type]}
+ */
 var express = require('express');
 var router = express.Router();
 
