@@ -7,16 +7,20 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
     res.render('index', {
-        title: 'Express'
+        title: 'API for 我说呢'
     });
 });
 
-router.get("/collection", function(req, res, next) {
-    getData(req, res, next, "collection");
+router.get("/posts", function(req, res, next) {
+    getData(req, res, next, "wp_posts");
 });
 
-router.get("/url", function(req, res, next) {
-    getData(req, res, next, "urls");
+router.get("/terms", function(req, res, next) {
+    getData(req, res, next, "wp_terms");
+});
+
+router.get("/comments", function(req, res, next) {
+    getData(req, res, next, "wp_comments");
 });
 
 function getData(req, res, next, dbname) {
