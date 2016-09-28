@@ -35,6 +35,9 @@ function getData(req, res, next, dbname) {
             }
             url = url.substr(0, url.length - 4);
         }
+        if(dbname == "wp_posts"){
+            url += " ORDER BY ID desc";
+        }
         connection.query(url, [], function(err, results) {
             if (err) return next(err);
             res.send(results);
