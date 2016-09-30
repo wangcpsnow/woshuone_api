@@ -50,7 +50,7 @@ function getData(req, res, next, dbname) {
             url += " ORDER BY ID desc";
         }
         if(pageIndex){
-            url += " limit " + pageIndex*pageSize + "," + pageSize;
+            url += " limit " + (pageIndex-1)*pageSize + "," + pageSize;
         }
         connection.query(url, [], function(err, results) {
             if (err) return next(err);
