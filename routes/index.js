@@ -24,7 +24,18 @@ router.get("/comments", function(req, res, next) {
 });
 
 function getData(req, res, next, dbname) {
-    var query = req.query;
+    var query = req.query,
+        pageIndex = 0,
+        pageSize = 10;
+    if(query["pageIndex"]){
+        pageIndex = query.pageIndex;
+        delete query.pageIndex;
+    }
+    if(query.pageSize){
+        pageSize = query.pageSize;
+        delete query.pageSize;
+    }
+
     req.getConnection(function(err, connection) {
         if (err) return next(err);
         var url = 'SELECT * from ' + dbname;
@@ -37,6 +48,9 @@ function getData(req, res, next, dbname) {
         }
         if(dbname == "wp_posts"){
             url += " ORDER BY ID desc";
+        }
+        if(pageIndex){
+            url += " limit " + pageIndex*pageSize + "," + pageSize;
         }
         connection.query(url, [], function(err, results) {
             if (err) return next(err);
