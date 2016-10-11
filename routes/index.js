@@ -11,16 +11,30 @@ router.get('/', function(req, res, next) {
     });
 });
 
+//文章列表
 router.get("/posts", function(req, res, next) {
     getData(req, res, next, "wp_posts");
 });
 
+//文章的所有分类
 router.get("/terms", function(req, res, next) {
     getData(req, res, next, "wp_terms");
 });
 
+/*
+ * title: 评论列表
+ * args: comment_POST_ID(文章ID)
+ **/
 router.get("/comments", function(req, res, next) {
     getData(req, res, next, "wp_comments");
+});
+
+/*
+ * title: 某个文章的分类
+ * args: object_id(文章ID)
+ **/
+router.get("/postterms", function(req, res, next) {
+    getData(req, res, next, "wp_term_relationships");
 });
 
 function getData(req, res, next, dbname) {
