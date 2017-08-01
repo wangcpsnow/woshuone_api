@@ -56,7 +56,9 @@ function getData(req, res, next, dbname) {
         if (!isEmptyObj(query)) {
             url += " where ";
             for (var key in query) {
-                url += key + " = " + query[key] + " AND ";
+		var val = query[key];
+		val = typeof val === 'string' ? "'" + val + "'" : val;
+		url += key + " = " + val + " AND ";
             }
             url = url.substr(0, url.length - 4);
         }
