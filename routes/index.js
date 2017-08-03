@@ -32,8 +32,23 @@ router.get("/comments", function(req, res, next) {
 /**
  * 添加评论
  */
-router.post('/comments', function () {
-    
+router.post('/comments', function (req, res, next) {
+    var obj = req.body;
+    obj.comment_date = parseTime();
+    var keys = [],
+        vals = [];
+    for (var key in obj) {
+        keys.push(key);
+        vals.push('"' +  obj[key] + '"');
+    }
+    req.getConnection(function(err, connection) {
+        if (err) return next(err);
+        var url = 'INSERT INTO wp_comments (' +  keys.join(',') + ') VALUES (' + vals.join(',') + ')';
+	connection.query(url, [], function(err, results) {
+            if (err) return next(err);
+            res.send(obj);
+        });
+    });
 });
 
 /*
@@ -87,6 +102,21 @@ function isEmptyObj(obj) {
         return false;
     }
     return true;
+}
+function parseTime (time) {
+    time = new Date(time || new Date().valueOf());
+    var year = time.getFullYear(),
+        month = time.getMonth() + 1,
+        day = time.getDate(),
+        h = time.getHours(),
+        m = time.getMinutes();
+    return year + '-' + numHandler(month) + '-' + numHandler(day) + ' ' + numHandler(h) + ":" + numHandler(m);
+}
+function numHandler (num) {
+    if(num < 10) {
+        return "0" + num;
+    }
+    return num;
 }
 
 module.exports = router;
