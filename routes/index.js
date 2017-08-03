@@ -29,6 +29,13 @@ router.get("/comments", function(req, res, next) {
     getData(req, res, next, "wp_comments");
 });
 
+/**
+ * 添加评论
+ */
+router.post('/comments', function () {
+    
+});
+
 /*
  * title: 某个文章的分类
  * args: object_id(文章ID)
