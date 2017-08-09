@@ -5,36 +5,14 @@
 var express = require('express');
 var router = express.Router();
 
+var Posts = require('./posts.js')
+
 router.get('/', function(req, res, next) {
     res.render('index', {
         title: 'API for 我说呢'
     });
 });
-
-//文章列表
-router.get("/posts", function(req, res, next) {
-    getData(req, res, next, "wp_posts");
-});
-
-//发表文章
-router.post("/posts", function(req, res, next) {
-    var obj = req.body;
-    obj.post_date = parseTime();
-    var keys = [],
-        vals = [];
-    for (var key in obj) {
-        keys.push(key);
-        vals.push('"' +  obj[key] + '"');
-    }
-    req.getConnection(function(err, connection) {
-        if (err) return next(err);
-        var url = 'INSERT INTO wp_posts (' +  keys.join(',') + ') VALUES (' + vals.join(',') + ')';
-    connection.query(url, [], function(err, results) {
-            if (err) return next(err);
-            res.send(obj);
-        });
-    });
-});
+router = Posts(router);
 
 //文章的所有分类
 router.get("/terms", function(req, res, next) {
