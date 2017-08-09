@@ -9,7 +9,7 @@ module.exports = function (Router) {
 	//发表文章
 	Router.post("/posts", function(req, res, next) {
 	    var obj = req.body;
-	    obj.post_date = parseTime();
+	    obj.post_modified = Lib.parseTime();
 	    var keys = [],
 	        vals = [];
 	    for (var key in obj) {
