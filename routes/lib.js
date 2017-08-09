@@ -1,6 +1,6 @@
 
 module.exports = {
-	GET: function (req, res, next, dbname) {
+	getData: function (req, res, next, dbname) {
 		var query = req.query,
 	        pageIndex = 0,
 	        pageSize = 10;
