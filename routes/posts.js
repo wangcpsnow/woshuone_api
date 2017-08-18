@@ -19,9 +19,9 @@ module.exports = function (Router) {
 	    req.getConnection(function(err, connection) {
 	        if (err) return next(err);
 	        var url = 'INSERT INTO wp_posts (' +  keys.join(',') + ') VALUES (' + vals.join(',') + ')';
-	    connection.query(url, [], function(err, results) {
+	    	connection.query(url, [], function(err, results) {
 	            if (err) return next(err);
-	            res.send(obj);
+	            res.send(results);
 	        });
 	    });
 	});

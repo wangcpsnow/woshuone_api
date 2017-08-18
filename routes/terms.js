@@ -24,5 +24,16 @@ module.exports = function (Router) {
 	    });
 	});
 
+	Router.post("/addterms", function(req, res, next) {
+		var obj = req.body;
+		req.getConnection(function(err, connection) {
+	        if (err) return next(err);
+	        var url = 'INSERT INTO wp_term_relationships (' +  keys.join(',') + ') VALUES (' + vals.join(',') + ')';
+	    	connection.query(url, [], function(err, results) {
+	            if (err) return next(err);
+	            res.send(results);
+	        });
+	    });
+	});
 	return Router;
 }
