@@ -25,15 +25,29 @@ module.exports = function (Router) {
 	});
 
 	Router.post("/addterms", function(req, res, next) {
-		var obj = req.body;
-		req.getConnection(function(err, connection) {
-	        if (err) return next(err);
-	        var url = 'INSERT INTO wp_term_relationships (' +  keys.join(',') + ') VALUES (' + vals.join(',') + ')';
-	    	connection.query(url, [], function(err, results) {
-	            if (err) return next(err);
-	            res.send(results);
-	        });
-	    });
-	});
+	
+var obj = req.body;
+    console.log(obj);
+    var object_id = obj.object_id;
+    var terms = obj.term_taxonomy_id;
+    if (!object_id || !terms) {
+        res.status(400).send('参数校验失败');return;
+    }
+    terms = terms.split(',');
+    req.getConnection(function(err, connection) {
+        if (err) return next(err);
+var url = `INSERT INTO wp_term_relationships (object_id, term_taxonomy_id) VALUES (${object_id}, ${terms[0]})`;
+        for (var i=1,l=terms.length;i<l;i++) {
+        	url += `,(${object_id}, ${terms[i]})`;
+        }
+        url += ';'        
+//res.send(url);
+        console.log(url);
+     	connection.query(url, [], function(err, results) {
+     	    if (err) return next(err);
+     	    res.send(results);
+        });
+});
+});
 	return Router;
 }
