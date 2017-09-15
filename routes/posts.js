@@ -3,7 +3,20 @@ module.exports = function (Router) {
 	
 	//文章列表
 	Router.get("/posts", function(req, res, next) {
-	    Lib.getData(req, res, next, "wp_posts");
+		if (req.query['ID']) {
+			req.getConnection(function(err, connection) {
+		        if (err) return next(err);
+		        var url = 'update wp_posts set heats = heats + 1 where ID = ' + req.query['ID'];
+		    	connection.query(url, [], function(err, results) {
+		            if (err) return next(err);
+		            Lib.getData(req, res, next, "wp_posts");
+		        });
+		    });
+		}
+		else {
+			Lib.getData(req, res, next, "wp_posts");
+		}
+	    
 	});
 
 	// 获取某个分类的所有文章

@@ -31,9 +31,6 @@ module.exports = {
 	        if(pageIndex){
 	            url += " limit " + (pageIndex-1)*pageSize + "," + pageSize;
 	        }
-	        if (dbname == 'wp_posts' && query['ID']) { //更新浏览量数据
-	        	url += ';update wp_posts set heats = heats + 1 where ID = ' + query['ID'];
-	        }
 	        connection.query(url, [], function(err, results) {
 	            if (err) return next(err);
 	            res.send(results);
