@@ -1,6 +1,6 @@
 var Lib = require('./lib.js')
 module.exports = function (Router) {
-	
+
 	//文章列表
 	Router.get("/posts", function(req, res, next) {
 		if (req.query['ID']) {
@@ -16,7 +16,7 @@ module.exports = function (Router) {
 		else {
 			Lib.getData(req, res, next, "wp_posts");
 		}
-	    
+
 	});
 
 	// 获取某个分类的所有文章
@@ -30,6 +30,7 @@ module.exports = function (Router) {
 	        });
 	    });
 	});
+
 	//发表文章
 	Router.post("/posts", function(req, res, next) {
 	    var obj = req.body;
@@ -49,6 +50,34 @@ module.exports = function (Router) {
 	        });
 	    });
 	});
+
+	// 更新文章
+	Router.put('/posts/:id', function (req, res, next) {
+		var obj = req.body;
+		if (!obj.post_content) {
+			res.status(400).send('post_content 是必填项');return;
+		}
+		req.getConnection(function(err, connection) {
+	        if (err) return next(err);
+	        var url = `update wp_posts set post_content = ${obj.post_content} where ID = ${req.params.id}`;
+	    	connection.query(url, [], function(err, results) {
+	            if (err) return next(err);
+	            res.send(results);
+	        });
+	    });
+	});
+
+	// 删除文章
+	Router.delete('/posts/:id', function (req, res, next) {
+		req.getConnection(function(err, connection) {
+	        if (err) return next(err);
+	        var url = `delete from wp_posts where ID = ${req.params.id}`;
+	    	connection.query(url, [], function(err, results) {
+	            if (err) return next(err);
+	            res.send(results);
+	        });
+	    });
+	})
 
 	return Router;
 }
