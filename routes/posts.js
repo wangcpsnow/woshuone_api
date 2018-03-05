@@ -59,10 +59,10 @@ module.exports = function (Router) {
 		}
 		req.getConnection(function(err, connection) {
 	        if (err) return next(err);
-	        var url = `update wp_posts set post_content = ${obj.post_content} where ID = ${req.params.id}`;
+	        var url = `update wp_posts set post_content = "${obj.post_content}" where ID = ${req.params.id}`;
 	    	connection.query(url, [], function(err, results) {
 	            if (err) return next(err);
-	            res.send(results);
+	            res.send('编辑成功');
 	        });
 	    });
 	});
